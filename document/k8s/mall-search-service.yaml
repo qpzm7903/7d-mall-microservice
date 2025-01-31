@@ -19,7 +19,7 @@ spec:
     spec:
       initContainers:
         - name: init-skywalking-agent
-          image: 172.16.106.237/monitor/skywalking-agent:8.1.0
+          image: registry.cn-beijing.aliyuncs.com/xngczl/skywalking-agent:8.1.0
           command:
             - "sh"
             - "-c"
@@ -28,7 +28,7 @@ spec:
             - mountPath: /vmskywalking/agent
               name: skywalking-agent
       containers:
-        - image: registry.cn-beijing.aliyuncs.com/xngczl/mall-search:1.0-SNAPSHOT
+        - image: mall/mall-search:1.0-SNAPSHOT
           imagePullPolicy: Never
           name: mall-search
           ports:

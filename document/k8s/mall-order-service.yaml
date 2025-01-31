@@ -28,7 +28,7 @@ spec:
             - mountPath: /vmskywalking/agent
               name: skywalking-agent
       containers:
-        - image: registry.cn-beijing.aliyuncs.com/xngczl/mall-order:1.0-SNAPSHOT
+        - image: mall/mall-order:1.0-SNAPSHOT
           imagePullPolicy: Never
           name: mall-order
           ports:
