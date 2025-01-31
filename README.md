@@ -68,18 +68,87 @@
 
 
 ## 系统架构
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210509110259347.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3p1b3pld2Vp,size_16,color_FFFFFF,t_70#pic_center)
+![系统架构图](./document/images/arch.png)
 
 ## 部署架构
 
 ![部署架构图](https://img-blog.csdnimg.cn/20210330185951870.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3p1b3pld2Vp,size_16,color_FFFFFF,t_70)
 
 
-## 公众号
 
-电商项目全套学习教程连载中，关注公众号「**7DGroup**」第一时间获取。
+## 开发环境搭建 
+mall-swarm项目运行需要MySQL、Redis、RabbitMQ、Elasticsearch、Logstash、Kibana、MongoDB、MinIO、Nacos这些服务，需要先把它们启动起来。
 
-![公众号图片](https://img-blog.csdnimg.cn/20190304100509555.jpg)
+### docker安装
+
+
+### 手工创建库与表
+
+### sentinel
+默认账号密码
+
+账号 `sentinel`
+
+密码 `sentinel`
+
+### springboot admin
+
+account ``  
+
+password  ``
+
+### mq
+手工创建/mall vhost以及配置权限
+
+### nacos config
+
+common.yml
+
+```yaml 
+spring:
+  datasource:
+    druid:
+      url: jdbc:mysql://localhost:3306/mall_full_link?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+      username: root
+      password: admin
+      initial-size: 5
+      min-idle: 10
+      max-active: 20
+      web-stat-filter:
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+      stat-view-servlet:
+        login-username: druid
+        login-password: druid
+  redis:
+    host: localhost
+    database: 1
+    port: 6379
+    timeout: 3000ms
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: root
+    password: admin
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: mall-port
+  elasticsearch:
+    rest:
+      uris: localhost:19200
+  cloud:
+    sentinel:
+      transport:
+        port: 18719
+        dashboard: localhost:18080
+      eager: true
+minio:
+  endpoint: http://localhost:9090
+  bucketName: mall
+  accessKey: minioadmin
+  secretKey: minioadmin
+```
 
 ## 许可证
 

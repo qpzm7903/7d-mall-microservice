@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 public class MyPasswordEncoder implements PasswordEncoder {
 
-    @Value("${auth.matchSwitch}")
+    @Value("${auth.matchSwitch:2}")
     private String matchSwitch;
 
     @Override

@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserDetailsService {
     @Autowired
     private MemberCacheService memberCacheService;
 
-    @Value("${auth.cacheSwitch}")
+    @Value("${auth.cacheSwitch:2}")
     private String cacheSwitch;
 
     @Override

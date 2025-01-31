@@ -3,37 +3,37 @@ server:
 spring:
   datasource:
     druid:
-      url: jdbc:mysql://172.16.106.251:3306/mall_full_link?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
-      username: vbi
-      password: 123456
-      initial-size: 5 #连接池初始化大小
-      min-idle: 10 #最小空闲连接数
-      max-active: 20 #最大连接数
+      url: jdbc:mysql://localhost:3306/mall_full_link?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+      username: root
+      password: admin
+      initial-size: 5
+      min-idle: 10
+      max-active: 20
       web-stat-filter:
-        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*" #不统计这些请求数据
-      stat-view-servlet: #访问监控网页的登录用户名和密码
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+      stat-view-servlet:
         login-username: druid
         login-password: druid
   redis:
-    host: 172.16.62.179 # Redis服务器地址
-    database: 1 # Redis数据库索引（默认为0）
-    port: 6379 # Redis服务器连接端口
-    password:  # Redis服务器连接密码（默认为空）
-    timeout: 3000ms # 连接超时时间（毫秒）
-  rabbitmq: #rabbitmq相关配置
-    host: 172.16.62.179
+    host: localhost
+    database: 1
+    port: 6379
+#    password: admin
+    timeout: 3000ms
+  rabbitmq:
+    host: localhost
     port: 5672
-    username: mall
-    password: mall
+    username: root
+    password: admin
   servlet:
     multipart:
-      enabled: true #开启文件上传
-      max-file-size: 10MB #限制文件上传大小为10M
+      enabled: true
+      max-file-size: 10MB
 mybatis:
   mapper-locations:
     - classpath:dao/*.xml
     - classpath*:com/**/mapper/*.xml
-management: #开启SpringBoot Admin的监控
+management:
   endpoints:
     web:
       exposure:
@@ -49,24 +49,24 @@ redis:
     common: 86400 # 24小时
 aliyun:
   oss:
-    endpoint: oss-cn-beijing.aliyuncs.com # oss对外服务的访问域名
-    accessKeyId: LTAI4G1VRffC4D7CmBv5dFwZ # 访问身份验证中用到用户标识
-    accessKeySecret: v8afbIbKpjPqiI26slcdXQHB0kjJDR # 用户用于加密签名字符串和oss用来验证签名字符串的密钥
-    bucketName: perfo7 # oss的存储空间
+    endpoint: oss-cn-beijing.aliyuncs.com
+    accessKeyId: LTAI4G1VRffC4D7CmBv5dFwZ
+    accessKeySecret: v8afbIbKpjPqiI26slcdXQHB0kjJDR
+    bucketName: perfo7
     policy:
-      expire: 300 # 签名有效期(S)
-    maxSize: 10 # 上传文件大小(M)
-    callback: http://localhost:8080/aliyun/oss/callback # 文件上传成功后的回调地址
+      expire: 300
+    maxSize: 10
+    callback: http://localhost:8080/aliyun/oss/callback
     dir:
-      prefix: mall/images/ # 上传文件夹路径前缀
+      prefix: mall/images/
 minio:
-  endpoint: http://192.168.6.132:9090 #MinIO服务所在地址
-  bucketName: mall #存储桶名称
-  accessKey: minioadmin #访问的key
-  secretKey: minioadmin #访问的秘钥
+  endpoint: http://localhost:9090
+  bucketName: mall
+  accessKey: minioadmin
+  secretKey: minioadmin
 feign:
   okhttp:
     enabled: true
 ribbon:
-  ConnectTimeout: 3000 #服务请求连接超时时间（毫秒）
-  ReadTimeout: 3000 #服务请求处理超时时间（毫秒）
+  ConnectTimeout: 3000
+  ReadTimeout: 3000
