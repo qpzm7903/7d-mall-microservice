@@ -150,6 +150,24 @@ minio:
   secretKey: minioadmin
 ```
 
+### kuboard
+
+```shell
+kubectl apply -f https://kuboard.cn/install-script/kuboard.yaml
+kubectl apply -f https://addons.kuboard.cn/metrics-server/0.3.7/metrics-server.yaml
+```
+其中 kuboard 不适配k8s的1.24以上版本，因为 Kubernetes 从 1.24 版本开始，不再自动为 ServiceAccount 生成 Secret.
+。将Kubectl.yaml 换成  `document/k8s/kuboard.yaml` ，即可。
+
+安装后访问
+http://localhost:32567/dashboard
+
+获取token的命令
+```shell
+echo $(kubectl -n kube-system get secret $(kubectl -n kube-system get secret | grep ^kuboard-user | awk '{print $1}') -o go-template='{{.data.token}}' | base64 -d)
+```
+
+
 ## 许可证
 
 [Apache License 2.0](LICENSE)

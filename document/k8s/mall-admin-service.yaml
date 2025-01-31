@@ -28,10 +28,11 @@ spec:
             - mountPath: /vmskywalking/agent
               name: skywalking-agent
       containers:
-        - image: registry.cn-beijing.aliyuncs.com/xngczl/mall-admin:1.0
-          imagePullPolicy: Always
+        - image: mall/mall-admin:1.0-SNAPSHOT
+          imagePullPolicy: Never
           name: mall-admin
           ports:
+
             - containerPort: 8180
               protocol: TCP
           volumeMounts:

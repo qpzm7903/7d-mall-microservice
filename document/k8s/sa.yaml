@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-secret
+  namespace: kube-system
+type: Opaque
+data:
+  username: bXl1c2Vy # base64 myuser 编码后的用户名
+  password: bXlwYXNzd29yZA== # base64 mypassword 编码后的密码

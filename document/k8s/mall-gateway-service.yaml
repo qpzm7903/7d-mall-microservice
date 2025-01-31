@@ -28,8 +28,8 @@ spec:
             - mountPath: /vmskywalking/agent
               name: skywalking-agent
       containers:
-        - image: registry.cn-beijing.aliyuncs.com/xngczl/mall-gateway:1.0
-          imagePullPolicy: Always
+        - image: registry.cn-beijing.aliyuncs.com/xngczl/mall-gateway:1.0-SNAPSHOT
+          imagePullPolicy: Never
           name: mall-gateway
           ports:
             - containerPort: 8201
@@ -46,12 +46,12 @@ kind: Service
 metadata:
   name: gateway-mall-gateway
 spec:
-  type: NodePort         // 配置为NodePort，外部可以访问
+  type: NodePort
   ports:
     - name: http
       port: 8201
       protocol: TCP
       targetPort: 8201
-      nodePort: 30001      // NodePort，外部访问的端口
+      nodePort: 30001
   selector:
     app: gateway-mall-gateway
