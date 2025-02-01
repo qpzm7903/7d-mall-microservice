@@ -1,0 +1,130 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0.33
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: mall
+    ports:
+      - "3306:3306"
+    volumes:
+      - E:/docker-data/mysql:/var/lib/mysql
+    networks:
+      - mall-network
+
+  redis:
+    image: redis:7.0.11
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - mall-network
+
+  rabbitmq:
+    image: rabbitmq:3.11-management
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: root
+      RABBITMQ_DEFAULT_PASS: admin
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - mall-network
+
+  elasticsearch:
+    image: elasticsearch:7.17.10
+    container_name: elasticsearch
+    environment:
+      ES_JAVA_OPTS: "-Xmx4g -Xms4g"
+      cluster.name: mall-es
+      discovery.type: single-node # 启用单节点模式
+    ports:
+      - "19200:9200"
+      - "19300:9300"
+    volumes:
+      - E:/docker-data/elasticsearch:/usr/share/elasticsearch/data
+    networks:
+      - mall-network
+
+  logstash:
+    image: logstash:7.17.10
+    container_name: logstash
+    volumes:
+      - ./logstash-springboot.conf:/usr/share/logstash/pipeline/logstash-springboot.conf
+    ports:
+      - "5000:5000"
+    networks:
+      mall-network:
+        aliases:
+          - es
+    depends_on:
+      - elasticsearch
+
+  kibana:
+    image: kibana:7.17.10
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    networks:
+      - mall-network
+    depends_on:
+      - elasticsearch
+
+  mongodb:
+    image: mongo:6.0.6
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: admin
+      MONGO_INITDB_DATABASE: mall
+    ports:
+      - "27017:27017"
+    volumes:
+      - E:/docker-data/mongodb:/data/db
+    networks:
+      - mall-network
+
+  minio:
+    image: minio/minio:RELEASE.2023-07-18T17-49-40Z
+    container_name: minio
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - E:/docker-data/minio:/data
+    command: server /data --console-address ":9001"
+    networks:
+      - mall-network
+
+  nacos:
+    image: nacos/nacos-server:v2.5.0
+    container_name: nacos
+    ports:
+      - "8848:8848"
+    environment:
+      MODE: standalone
+    networks:
+      - mall-network
+
+  sentinel:
+    image: bladex/sentinel-dashboard:1.8.6
+    container_name: sentinel
+    ports:
+      - "18080:8858"
+      - "18719:8719"
+    environment:
+      JAVA_OPTS: "-Dserver.port=8080 -Dcsp.sentinel.dashboard.server=localhost:8080 -Dproject.name=sentinel-dashboard"
+    networks:
+      - mall-network
+
+networks:
+  mall-network:
+    driver: bridge

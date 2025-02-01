@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logstash
+  namespace: mall
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logstash
+  template:
+    metadata:
+      labels:
+        app: logstash
+    spec:
+      containers:
+      - name: logstash
+        image: logstash:7.17.10
+        volumeMounts:
+        - mountPath: /usr/share/logstash/pipeline/logstash-springboot.conf
+          name: logstash-config
+          subPath: logstash-springboot.conf
+      volumes:
+      - name: logstash-config
+        configMap:
+          name: logstash-config
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: logstash
+spec:
+  ports:
+  - port: 5000
+    targetPort: 5000
+    nodePort: 31050
+  selector:
+    app: logstash
+  type: NodePort
