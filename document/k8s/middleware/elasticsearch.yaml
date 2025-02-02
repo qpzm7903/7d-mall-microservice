@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: elasticsearch
-  namespace: mall
 spec:
   replicas: 1
   selector:
@@ -44,9 +43,11 @@ spec:
   - port: 9200
     targetPort: 9200
     nodePort: 31092
+    name: elasticsearch-port
   - port: 9300
     targetPort: 9300
     nodePort: 31093
+    name: elasticsearch-transport-port
   selector:
     app: elasticsearch
   type: NodePort

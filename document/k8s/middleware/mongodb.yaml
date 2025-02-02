@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mongodb
-  namespace: mall
 spec:
   replicas: 1
   selector:
@@ -41,7 +40,7 @@ spec:
   ports:
   - port: 27017
     targetPort: 27017
-    nodePort: 310017
+    nodePort: 31017
   selector:
     app: mongodb
   type: NodePort

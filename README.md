@@ -167,6 +167,22 @@ http://localhost:32567/dashboard
 echo $(kubectl -n kube-system get secret $(kubectl -n kube-system get secret | grep ^kuboard-user | awk '{print $1}') -o go-template='{{.data.token}}' | base64 -d)
 ```
 
+### 安装skywalking
+
+```shell
+git clone https://github.com/apache/skywalking-kubernetes
+cd skywalking-kubernetes/chart
+helm repo add elastic https://helm.elastic.co
+helm dep up skywalking
+export SKYWALKING_RELEASE_NAME=skywalking  # 定义自己的名称
+export SKYWALKING_RELEASE_NAMESPACE=default  # 定义
+helm install skywalking skywalking -n default -f ./skywalking/values-my-es.yaml
+```
+Caused by: com.linecorp.armeria.client.endpoint.EndpointSelectionTimeoutException: Failed to select within 3200 ms an endpoint from: HealthCheckedEndpointGroup{endpoints=[], numEndpoints=0, candidates=[Endpoint{192.168.100.136:19200, weight=1000}], numCandidates=1, selectionStrategy=class com.linecorp.armeria.client.endpoint.WeightedRoundRobinStrategy, initialized=true, initialSelectionTimeoutMillis=15000, selectionTimeoutMillis=3200, contextGroupChain=[HealthCheckContextGroup{contexts={Endpoint{192.168.100.136:19200, weight=1000}=DefaultHealthCheckerContext{originalEndpoint=Endpoint{192.168.100.136:19200, weight=1000}, endpoint=Endpoint{192.168.100.136:19200, weight=1000}, initializationStarted=true, initialized=true, destroyed=false, refCnt=1}}, candidates=[Endpoint{192.168.100.136:19200, weight=1000}], initialized=true}]}
+
+### helm安装
+看官网 https://helm.sh/zh/docs/intro/install/
+
 
 ## 许可证
 

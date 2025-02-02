@@ -24,7 +24,7 @@ spec:
         ports:
         - containerPort: 9000
         - containerPort: 9001
-        command: ["server", "/data", "--console-address", ":9001"]
+        command: ["minio", "server", "/data", "--console-address", ":9001"]
         volumeMounts:
         - mountPath: /data
           name: minio-storage
@@ -45,9 +45,11 @@ spec:
   - port: 9000
     targetPort: 9000
     nodePort: 31090
+    name: minio-port
   - port: 9001
     targetPort: 9001
     nodePort: 31091
+    name: minio-management-port
   selector:
     app: minio
   type: NodePort
